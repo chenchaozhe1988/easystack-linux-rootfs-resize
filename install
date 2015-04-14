@@ -90,7 +90,7 @@ grub-mod() {
       # copy kernel
       [ ! -f ${kernel}-mod ] && cp ${kernel} ${kernel}-mod
       # generate new grub2 config
-      grub-mkconfig -o ${grub_config}
+      grub2-mkconfig -o ${grub_config}
     ;;
   esac
 }
@@ -147,7 +147,30 @@ distro=""
     call_insert_point="^source_all pre-mount"
     grub_config="/boot/grub/grub.conf"
     grub="grub1"
+  elif [[ "$(cat /etc/redhat-release)" == *CentOS\ release\ 7* ]]; then
+    distro="centos-7”
+    initrd_path="bin sbin usr/bin usr/sbin"
+    kernel_version=$(uname -r)
+    if [ -f /boot/initramfs-${kernel_version}.img ]
+    then
+      initrd="/boot/initramfs-$(uname -r).img"
+      kernel="/boot/vmlinuz-$(uname -r)"
+    else
+      # this assumes that a box has just been built and there is only a single
+      # kernel and initramfs, which kinda sucks, but not sure how to handle
+      # multiple initramfs or kernels that might be present - which one is the
+      # 'real' one?
+      initrd=$(ls /boot/initramfs*)
+      kernel=$(ls /boot/vmlinuz-*)
+    fi
+    init_script="init"
+    proc_insert_point="^export PATH=.*"
+    proc_name="growroot"
+    call_insert_point="^source_all pre-mount"
+    grub_config="/boot/grub2/grub.conf"
+    grub="grub2”
   fi
+
 # Debian derivate
 [ -f /etc/issue ] &&
   if [[ "$(cat /etc/issue)" == *Debian\ GNU\/Linux\ 7* ]]; then
