@@ -32,3 +32,8 @@ On CentOS:
     ./install
 
 Tool is designed in modular fashion, so support for other distributions can be added without much work (I hope).
+=======
+
+easystack-linux-rootfs-resize
+=============================
+Based on linux-rootfs-resize. EasyStack make it support more Linux OS. 
