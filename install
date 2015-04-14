@@ -147,8 +147,8 @@ distro=""
     call_insert_point="^source_all pre-mount"
     grub_config="/boot/grub/grub.conf"
     grub="grub1"
-  elif [[ "$(cat /etc/redhat-release)" == *CentOS\ release\ 7* ]]; then
-    distro="centos-7”
+  elif [[ "$(cat /etc/redhat-release)" == *CentOS\ Linux\ release\ 7* ]]; then
+    distro="centos-7"
     initrd_path="bin sbin usr/bin usr/sbin"
     kernel_version=$(uname -r)
     if [ -f /boot/initramfs-${kernel_version}.img ]
@@ -168,7 +168,7 @@ distro=""
     proc_name="growroot"
     call_insert_point="^source_all pre-mount"
     grub_config="/boot/grub2/grub.conf"
-    grub="grub2”
+    grub="grub2"
   fi
 
 # Debian derivate
